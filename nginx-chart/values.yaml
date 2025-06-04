@@ -8,4 +8,4 @@ service:
   type: LoadBalancer
   port: 8888
 
-namespace: test
+namespace: mendel-ns
