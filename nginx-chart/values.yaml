@@ -8,10 +8,4 @@ service:
   type: LoadBalancer
   port: 8888
 
-pvc:
-  storage: 1Gi
-  storageClassName: ""
-  accessModes:
-    - ReadWriteOnce
-
 namespace: test
