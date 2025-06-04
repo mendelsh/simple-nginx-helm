@@ -1,0 +1,92 @@
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: hsl(0, 0%, 90%);
+}
+
+#calculator{
+    font-family: Arial, sans-serif;
+    background-color: hsl(0, 0%, 15%);
+    border-radius: 8px;
+    max-width: 250px;
+    overflow: hidden;
+}
+
+#display {
+    width: 100%;
+    padding: 10px; /* Padding for the input element */
+    font-size: 2.5rem;
+    text-align: left;
+    font-family: initial;
+    border: none;
+    background-color: hsl(0, 0%, 20%);
+    color: white;
+    box-sizing: border-box; /* Ensure padding is included in width */
+    letter-spacing: 2px; /* Adjust this value as needed */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis to indicate overflow */
+    white-space: nowrap; /* Prevent text wrapping */
+    letter-spacing: 3px;
+}
+
+#keys{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding: 13px;
+}
+
+button{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    border: none;
+    background-color: hsl(0, 0%, 30%);
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+button:hover{
+    background-color: hsl(0, 0%, 40%);
+}
+button:active{
+    background-color: hsl(0, 0%, 50%);
+}
+.operator-btn{
+    background-color: hsl(167, 40%, 40%);
+}
+.operator-btn:hover{
+    background-color: hsl(167, 40%, 50%);
+}
+.operator-btn:active{
+    background-color: hsl(167, 40%, 60%);
+}
+.cleer-btn{
+    background-color: hsl(15, 66%, 40%);
+}
+.cleer-btn:hover{
+    background-color: hsl(15, 66%, 50%);
+}
+.cleer-btn:active{
+    background-color: hsl(15, 66%, 60%);
+}
+
+.pi-btn{
+    font-family: initial;
+    font-size: 2rem;
+    padding-top: 6px;
+    padding-bottom: 15px;
+    line-height: 1;
+    color: hsl(0, 0%, 100%);
+    background-color: hsl(45, 66%, 30%);
+}
+.pi-btn:hover{
+    background-color: hsl(45, 66%, 40%);
+}
+.pi-btn:active{
+    background-color: hsl(45, 66%, 50%);
+}
