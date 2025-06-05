@@ -2,8 +2,8 @@
 pipeline {
   agent {
     kubernetes {
-      label 'agent-template'
-      inheritFrom 'agent-template'
+      inheritFrom 'mendel-temp'
+      defaultContainer 'agent-template'
     }
   }
     environment {
