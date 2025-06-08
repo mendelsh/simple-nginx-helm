@@ -39,6 +39,7 @@ pipeline {
         }
 
         stage('Deploy to Minikube with Helm') {
+            agent any
             steps {
                 withCredentials([file(credentialsId: 'minikube-kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''
