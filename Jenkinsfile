@@ -1,46 +1,52 @@
-
 pipeline {
-  agent {
-    kubernetes {
-      inheritFrom 'mendel-temp'
-      defaultContainer 'agent-template'
+    agent {
+        docker {
+            image 'docker:24.0'  // lightweight docker image
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
-  }
+
     environment {
-        REGISTRY = 'mendelsh/calculator'
-        TAG = "build-${env.BUILD_NUMBER}"
-        CREDENTIALS_ID = 'dockerhub-creds'
+        IMAGE_NAME = 'mendelsh/calculator'
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/youruser/static-site.git'
+                git url: 'https://github.com/mendelsh/simple-nginx-helm.git', branch: 'main'
             }
         }
 
-        stage('Build and Push Docker Image') {
+        stage('Build & Push Docker Image') {
             steps {
                 script {
-                    docker.build("${REGISTRY}:${TAG}")
-                    docker.withRegistry('https://index.docker.io/v1/', CREDENTIALS_ID) {
-                        docker.image("${REGISTRY}:${TAG}").push()
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-creds') {
+                        def image = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                        image.push()
                     }
                 }
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Update Helm Chart') {
             steps {
-                script {
-                    sh """
-                      helm upgrade --install site ./helm/site \
-                        --set image.repository=${REGISTRY} \
-                        --set image.tag=${TAG}
-                    """
+                sh """
+                    sed -i 's|repository: .*|repository: ${IMAGE_NAME}|' nginx-chart/values.yaml
+                    sed -i 's|tag: .*|tag: "${IMAGE_TAG}"|' nginx-chart/values.yaml
+                """
+            }
+        }
+
+        stage('Deploy to Minikube with Helm') {
+            steps {
+                withCredentials([file(credentialsId: 'minikube-kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh '''
+                        helm upgrade --install nginx-release ./nginx-chart \
+                          --kubeconfig $KUBECONFIG
+                    '''
                 }
             }
         }
     }
 }
-
