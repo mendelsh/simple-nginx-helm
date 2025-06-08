@@ -1,11 +1,14 @@
 replicaCount: 2
 
 image:
-  repository: nginx
+  repository: mendelsh/calculator
   tag: latest
 
 service:
-  type: NodePort
-  port: 8888
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
 
 namespace: mendel-ns
