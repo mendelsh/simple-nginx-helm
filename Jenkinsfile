@@ -43,6 +43,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'minikube-kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''
                         helm upgrade --install nginx-release ./nginx-chart \
+                          --namespace mendel-ns \
                           --kubeconfig $KUBECONFIG
                     '''
                 }
