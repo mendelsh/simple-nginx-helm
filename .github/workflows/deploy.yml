@@ -45,7 +45,7 @@ jobs:
       - name: Update image tag in Helm values.yaml
         run: |
           # Update values.yaml image.tag
-          sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" ./nginx-chart/values.yaml
+          sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" ./count-users-dir/values.yaml
 
       - name: Commit and push updated values.yaml
         run: |
