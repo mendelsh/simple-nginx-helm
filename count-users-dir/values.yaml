@@ -1,0 +1,14 @@
+replicaCount: 2
+
+image:
+  repository: mendelsh/count-users
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+
+namespace: mendel-ns
