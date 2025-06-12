@@ -10,7 +10,11 @@ metadata:
 spec:
   selector:
     app: nginx
+  {{- if .Values.ingress.enabled }}
+  type: ClusterIP
+  {{- else }}
   type: {{ .Values.service.type }}
+  {{- end }}
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
