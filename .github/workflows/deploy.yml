@@ -48,13 +48,15 @@ jobs:
 
       - name: Update image tag in Helm values.yaml
         run: |
-          # Update values.yaml image.tag
           sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" ./count-users-dir/values.yaml
 
-      - name: Commit and push updated values.yaml
+            - name: Commit and push updated values.yaml
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add ./count-users-dir/values.yaml
           git commit -m "Update image tag to $IMAGE_TAG [skip ci]" || echo "No changes to commit"
-          git push
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
+          git push origin HEAD:main
